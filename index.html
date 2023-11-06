@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casa de Câmbio XPTO</title>
+</head>
+<body>
+    <select name="" id="idMoedas"></select>
+
+    <script>
+    // função auto executável
+    (async function () {
+        let moedas = await buscarMoedasFETCH()
+        console.log(moedas);
+        carregarSelectMoedas(moedas)
+    })()
+
+    async function buscarMoedasFETCH() {
+        var resposta = await fetch("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/Moedas?$top=100&$format=json&$select=simbolo,nomeFormatado,tipoMoeda")
+        return resposta.json()
+    }
+
+    function carregarSelectMoedas(moedas) {
+        let listaMoedas = document.getElementById("idMoedas")
+            for (let i = 0; i < moedas.value.length; i++) {
+                console.log(moedas.value[i].simbolo);
+                let optionMoeda = document.createElement("option")
+                optionMoeda.value = moedas.value[i].simbolo
+                optionMoeda.innerText = moedas.value[i].nomeFormatado
+                listaMoedas.appendChild(optionMoeda)
+            }
+    }
+
+    </script>
+    
+</body>
+</html>
